@@ -1,0 +1,24 @@
+{
+  "name": "artest-backend",
+  "version": "1.0.0",
+  "description": "The backend for Artest, a music game quiz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "music",
+    "spotify",
+    "game",
+    "quiz",
+    "artist"
+  ],
+  "author": "Doaa Mahely",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
