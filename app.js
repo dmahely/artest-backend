@@ -9,8 +9,11 @@ app.get("/", function (req, res) {
 });
 
 app.get("/token", async function (req, res) {
-  const token = await getToken();
-  if (token) res.send(token);
+  const tokenVal = await getToken();
+  const token = tokenVal.access_token;
+  // calculate expiry date and time (current time + one hour)
+  const expires_at = Date.now() + 60 * 60 * 1000;
+  if (tokenVal) res.send({ token, expires_at });
 });
 
 app.listen(4000, function () {

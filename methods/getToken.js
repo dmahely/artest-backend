@@ -21,11 +21,8 @@ async function getToken() {
 
   // jsonify the api response and return the access token
   const tokenVal = await tokenResponse.json();
-  const token = tokenVal.access_token;
-  // calculate expiry date and time (current time + one hour)
-  const expires_at = Date.now() + 60 * 60 * 1000;
 
-  return { token, expires_at };
+  return tokenVal;
 }
 
 module.exports = getToken;
