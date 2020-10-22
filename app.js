@@ -8,6 +8,8 @@ const getAlbums = require("./api/getAlbums");
 const getArtistData = require("./api/getArtistData");
 const extractAlbumData = require("./utils/extractAlbumData");
 const extractArtistsData = require("./utils/extractArtistsData");
+const getRelatedArtists = require("./api/getRelatedArtists");
+const extractRelatedArtists = require("./utils/extractRelatedArtists");
 
 app.get("/", function (req, res) {
   res.send("Hello World!");
@@ -45,6 +47,20 @@ app.post("/artists", async function (req, res) {
     res.send("err");
   }
   res.send(artists);
+});
+
+app.post("/relatedArtists", async function (req, res) {
+  const accessToken = req.body.accessToken;
+  const artistId = req.body.artistId;
+  const artistsData = await getRelatedArtists(accessToken, artistId);
+
+  let relatedArtists;
+  try {
+    relatedArtists = extractRelatedArtists(artistsData);
+  } catch (err) {
+    res.send("err");
+  }
+  res.send(relatedArtists);
 });
 
 app.listen(4000, function () {
