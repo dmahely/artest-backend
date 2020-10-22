@@ -3,8 +3,8 @@ var app = express();
 app.use(express.json()); // for parsing POST bodies
 const dotenv = require("dotenv");
 dotenv.config();
-const getToken = require("./methods/getToken");
-const getAlbums = require("./methods/getAlbums");
+const getToken = require("./api/getToken");
+const getAlbums = require("./api/getAlbums");
 
 app.get("/", function (req, res) {
   res.send("Hello World!");
