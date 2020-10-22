@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const getToken = require("./api/getToken");
 const getAlbums = require("./api/getAlbums");
+const extractAlbumData = require("./utils/extractAlbumData");
 
 app.get("/", function (req, res) {
   res.send("Hello World!");
@@ -21,7 +22,13 @@ app.get("/token", async function (req, res) {
 app.post("/albums", async function (req, res) {
   const accessToken = req.body.accessToken;
   const albumsVal = await getAlbums(accessToken);
-  if (albumsVal) res.send(albumsVal);
+  let albums;
+  try {
+    albums = extractAlbumData(albumsVal);
+  } catch (err) {
+    res.send("err");
+  }
+  res.send(albums);
 });
 
 app.listen(4000, function () {
