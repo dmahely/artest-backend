@@ -1,5 +1,6 @@
 const baseURL = process.env.SPOTIFY_BASE_URL;
 const fetch = require("node-fetch");
+const isTokenValid = require("../utils/isTokenValid");
 
 const fetchRelatedArtists = async (accessToken, artistId) => {
   // append params to baseURL
@@ -12,6 +13,9 @@ const fetchRelatedArtists = async (accessToken, artistId) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+  if (!isTokenValid(relatedArtistsResponse))
+    throw new Error("Authentication error");
 
   const relatedArtistsData = await relatedArtistsResponse.json();
 

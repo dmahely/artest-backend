@@ -1,6 +1,7 @@
 const baseURL = process.env.SPOTIFY_BASE_URL;
 const wordBank = require("../utils/words");
 const fetch = require("node-fetch");
+const isTokenValid = require("../utils/isTokenValid");
 
 const fetchAlbums = async (accessToken) => {
   const randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
@@ -29,6 +30,8 @@ const fetchAlbums = async (accessToken) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+  if (!isTokenValid(albumsResponse)) throw new Error("Authentication error");
 
   let albumsData;
   try {
