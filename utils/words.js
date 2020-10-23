@@ -1001,4 +1001,4 @@ const wordBank = [
   "erratic",
 ];
 
-module.exports = { wordBank };
+module.exports = wordBank;
