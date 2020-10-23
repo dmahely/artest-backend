@@ -3,18 +3,11 @@ var app = express();
 app.use(express.json()); // for parsing POST bodies
 const dotenv = require("dotenv");
 dotenv.config();
-const fetchAccessToken = require("./api/fetchAccessToken");
-const fetchAlbums = require("./api/fetchAlbums");
-const fetchArtistDetails = require("./api/fetchArtistDetails");
-const extractAlbumData = require("./utils/extractAlbumData");
-const extractArtistsData = require("./utils/extractArtistsData");
-const fetchRelatedArtists = require("./api/fetchRelatedArtists");
-const extractRelatedArtists = require("./utils/extractRelatedArtists");
-const prepareRounds = require("./utils/prepareRounds");
 
-app.get("/", function (req, res) {
-  res.send("Hello World!");
-});
+const fetchAccessToken = require("./api/fetchAccessToken");
+const fetchRelatedArtists = require("./api/fetchRelatedArtists");
+const prepareRounds = require("./utils/prepareRounds");
+const extractRelatedArtists = require("./utils/extractRelatedArtists");
 
 app.get("/token", async function (req, res) {
   const tokenVal = await fetchAccessToken();
@@ -24,30 +17,12 @@ app.get("/token", async function (req, res) {
   if (tokenVal) res.send({ token, expires_at });
 });
 
-app.post("/albums", async function (req, res) {
+app.post("/rounds", async function (req, res) {
+  const currentRound = req.body.currentRound;
   const accessToken = req.body.accessToken;
-  const albumsVal = await fetchAlbums(accessToken);
-  let albums;
-  try {
-    albums = extractAlbumData(albumsVal);
-  } catch (err) {
-    res.send("err");
-  }
-  res.send(albums);
-});
 
-app.post("/artists", async function (req, res) {
-  const accessToken = req.body.accessToken;
-  const albums = req.body.albums;
-  const artistsData = await fetchArtistDetails(accessToken, albums);
-
-  let artists;
-  try {
-    artists = extractArtistsData(artistsData);
-  } catch (err) {
-    res.send("err");
-  }
-  res.send(artists);
+  const roundsData = await prepareRounds(accessToken, currentRound);
+  res.send(roundsData);
 });
 
 app.post("/relatedArtists", async function (req, res) {
@@ -59,19 +34,11 @@ app.post("/relatedArtists", async function (req, res) {
   try {
     relatedArtists = extractRelatedArtists(artistsData);
   } catch (err) {
-    res.send("err");
+    throw new Error("Unable to get related artists");
   }
   res.send(relatedArtists);
 });
 
-app.post("/rounds", async function (req, res) {
-  const currentRound = req.body.currentRound;
-  const accessToken = req.body.accessToken;
-
-  const roundsData = await prepareRounds(accessToken, currentRound);
-  res.send(roundsData);
-});
-
-app.listen(4000, function () {
-  console.log("Example app listening on port 4000!");
+app.listen(process.env.PORT, function () {
+  console.log(`🥁 App listening on port ${process.env.PORT}!`);
 });
