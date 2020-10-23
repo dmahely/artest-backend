@@ -2,7 +2,7 @@ const baseURL = process.env.SPOTIFY_BASE_URL;
 const wordBank = require("../utils/words");
 const fetch = require("node-fetch");
 
-const getAlbums = async (accessToken) => {
+const fetchAlbums = async (accessToken) => {
   const randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
 
   const queryParam = `%${randomWord}%`;
@@ -41,4 +41,4 @@ const getAlbums = async (accessToken) => {
   return albumsData;
 };
 
-module.exports = getAlbums;
+module.exports = fetchAlbums;

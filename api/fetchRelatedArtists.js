@@ -1,7 +1,7 @@
 const baseURL = process.env.SPOTIFY_BASE_URL;
 const fetch = require("node-fetch");
 
-const getRelatedArtists = async (accessToken, artistId) => {
+const fetchRelatedArtists = async (accessToken, artistId) => {
   // append params to baseURL
   const relatedArtistsEndpoint = `${baseURL}/artists/${artistId}/related-artists`;
 
@@ -18,4 +18,4 @@ const getRelatedArtists = async (accessToken, artistId) => {
   return relatedArtistsData;
 };
 
-module.exports = getRelatedArtists;
+module.exports = fetchRelatedArtists;

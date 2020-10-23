@@ -2,7 +2,7 @@
 const baseURL = process.env.SPOTIFY_BASE_URL;
 const fetch = require("node-fetch");
 
-const getArtistData = async (accessToken, albums) => {
+const fetchArtistDetails = async (accessToken, albums) => {
   // get artist ids in a comma separated string
   const artistIds = albums.map((round) => round.artists[0].id).join(",");
 
@@ -27,4 +27,4 @@ const getArtistData = async (accessToken, albums) => {
   return artistImagesData;
 };
 
-module.exports = getArtistData;
+module.exports = fetchArtistDetails;

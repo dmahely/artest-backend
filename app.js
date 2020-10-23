@@ -3,12 +3,12 @@ var app = express();
 app.use(express.json()); // for parsing POST bodies
 const dotenv = require("dotenv");
 dotenv.config();
-const getToken = require("./api/getToken");
-const getAlbums = require("./api/getAlbums");
-const getArtistData = require("./api/getArtistData");
+const fetchAccessToken = require("./api/fetchAccessToken");
+const fetchAlbums = require("./api/fetchAlbums");
+const fetchArtistDetails = require("./api/fetchArtistDetails");
 const extractAlbumData = require("./utils/extractAlbumData");
 const extractArtistsData = require("./utils/extractArtistsData");
-const getRelatedArtists = require("./api/getRelatedArtists");
+const fetchRelatedArtists = require("./api/fetchRelatedArtists");
 const extractRelatedArtists = require("./utils/extractRelatedArtists");
 
 app.get("/", function (req, res) {
@@ -16,7 +16,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/token", async function (req, res) {
-  const tokenVal = await getToken();
+  const tokenVal = await fetchAccessToken();
   const token = tokenVal.access_token;
   // calculate expiry date and time (current time + one hour)
   const expires_at = Date.now() + 60 * 60 * 1000;
@@ -25,7 +25,7 @@ app.get("/token", async function (req, res) {
 
 app.post("/albums", async function (req, res) {
   const accessToken = req.body.accessToken;
-  const albumsVal = await getAlbums(accessToken);
+  const albumsVal = await fetchAlbums(accessToken);
   let albums;
   try {
     albums = extractAlbumData(albumsVal);
@@ -38,7 +38,7 @@ app.post("/albums", async function (req, res) {
 app.post("/artists", async function (req, res) {
   const accessToken = req.body.accessToken;
   const albums = req.body.albums;
-  const artistsData = await getArtistData(accessToken, albums);
+  const artistsData = await fetchArtistDetails(accessToken, albums);
 
   let artists;
   try {
@@ -52,7 +52,7 @@ app.post("/artists", async function (req, res) {
 app.post("/relatedArtists", async function (req, res) {
   const accessToken = req.body.accessToken;
   const artistId = req.body.artistId;
-  const artistsData = await getRelatedArtists(accessToken, artistId);
+  const artistsData = await fetchRelatedArtists(accessToken, artistId);
 
   let relatedArtists;
   try {
