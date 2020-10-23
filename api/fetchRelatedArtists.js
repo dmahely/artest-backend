@@ -14,8 +14,9 @@ const fetchRelatedArtists = async (accessToken, artistId) => {
         },
     });
 
-    if (!isTokenValid(relatedArtistsResponse))
+    if (!isTokenValid(relatedArtistsResponse)) {
         throw new Error('Authentication error');
+    }
 
     const relatedArtistsData = await relatedArtistsResponse.json();
 

@@ -23,8 +23,9 @@ const fetchArtistDetails = async (accessToken, albums) => {
         },
     });
 
-    if (!isTokenValid(artistImagesResponse))
+    if (!isTokenValid(artistImagesResponse)) {
         throw new Error('Authentication error');
+    }
 
     const artistImagesData = await artistImagesResponse.json();
 

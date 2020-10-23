@@ -1,6 +1,6 @@
 const baseURL = process.env.SPOTIFY_BASE_URL;
-const wordBank = require('../utils/words');
 const fetch = require('node-fetch');
+const wordBank = require('../utils/words');
 const isTokenValid = require('../utils/isTokenValid');
 
 const fetchAlbums = async (accessToken) => {

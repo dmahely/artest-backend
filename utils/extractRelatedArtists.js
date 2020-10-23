@@ -14,8 +14,7 @@ const extractRelatedArtists = (data) => {
     // if there are less than 3 related artists, get a
     // random artist from fallback array and add it as an option
     while (relatedArtists.length < 3) {
-        const randomArtist =
-            artists[Math.floor(Math.random() * artists.length)];
+        const randomArtist = artists[Math.floor(Math.random() * artists.length)];
         const randomIndex = Math.floor(Math.random() * relatedArtists.length);
         relatedArtists.splice(randomIndex, 0, randomArtist);
     }

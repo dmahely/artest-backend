@@ -1,13 +1,13 @@
 const btoa = require('btoa');
 const fetch = require('node-fetch');
 
-const client_id = process.env.SPOTIFY_CLIENT_ID,
-    client_secret = process.env.SPOTIFY_CLIENT_SECRET,
-    apiTokenURL = process.env.SPOTIFY_ACCESS_TOKEN_URL;
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const apiTokenURL = process.env.SPOTIFY_ACCESS_TOKEN_URL;
 
 async function fetchAccessToken() {
     // encodes client id and secret to base64
-    const authParam = btoa(`${client_id}:${client_secret}`);
+    const authParam = btoa(`${clientId}:${clientSecret}`);
     const tokenResponse = await fetch(apiTokenURL, {
         method: 'POST',
         headers: {
