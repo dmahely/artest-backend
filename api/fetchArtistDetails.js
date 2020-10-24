@@ -1,8 +1,7 @@
 // gets the correct artist ids for the upcoming rounds and fetches their data
-const baseURL = process.env.SPOTIFY_BASE_URL;
-const fetch = require('node-fetch');
-const isTokenValid = require('../utils/isTokenValid');
+const FetchClient = require('./FetchClient');
 
+const baseURL = process.env.SPOTIFY_BASE_URL;
 const fetchArtistDetails = async (accessToken, albums) => {
     // get artist ids in a comma separated string
     const artistIds = albums.map((round) => round.artists[0].id).join(',');
@@ -15,21 +14,18 @@ const fetchArtistDetails = async (accessToken, albums) => {
     // append params to baseURL
     const severalArtistsEndpoint = `${baseURL}/artists?${stringifiedQueryParams}`;
 
-    const artistImagesResponse = await fetch(severalArtistsEndpoint, {
+    const config = {
+        url: severalArtistsEndpoint,
+        method: 'GET',
         headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
         },
-    });
+    };
 
-    if (!isTokenValid(artistImagesResponse)) {
-        throw new Error('Authentication error');
-    }
+    const fetcher = new FetchClient(config);
+    const artistDetails = await fetcher.fetch();
 
-    const artistImagesData = await artistImagesResponse.json();
-
-    return artistImagesData;
+    return artistDetails;
 };
 
 module.exports = fetchArtistDetails;
