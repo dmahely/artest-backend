@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const isTokenValid = require('../utils/isTokenValid');
 
 const FetchClient = class {
-    constructor({ url, method, headers }) {
+    constructor({ url, method, headers, body }) {
         const defaultHeaders = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -10,12 +10,14 @@ const FetchClient = class {
         this.url = url || '';
         this.method = method || 'GET';
         this.headers = { ...defaultHeaders, ...headers };
+        this.body = body;
     }
 
     async fetch() {
         const response = await fetch(this.url, {
             method: this.method,
             headers: this.headers,
+            body: this.body,
         });
 
         try {
