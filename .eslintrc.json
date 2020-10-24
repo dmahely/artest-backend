@@ -12,6 +12,7 @@
     },
     "rules": {
         "indent": ["error", 4],
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "object-curly-newline": "off"
     }
 }
