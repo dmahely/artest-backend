@@ -9,7 +9,7 @@ const fetchAlbums = async (accessToken) => {
     const queryParam = `%${randomWord}%`;
     const offsetParam = 0; // to get the most relevant albums
     const typeParam = 'album';
-    const limitParam = 5;
+    const limitParam = 10;
 
     const queryParams = new URLSearchParams({
         q: queryParam,
