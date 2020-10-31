@@ -4,6 +4,7 @@ const fetchAlbums = require('../api/fetchAlbums');
 const fetchArtistDetails = require('../api/fetchArtistDetails');
 const fetchRelatedArtists = require('../api/fetchRelatedArtists');
 const extractAlbumData = require('./extractAlbumData');
+const extractArtistData = require('./extractArtistsData');
 const extractRelatedArtists = require('./extractRelatedArtists');
 const getCurrentArtistId = require('./getCurrentArtistId');
 
@@ -12,7 +13,9 @@ const prepareRounds = async (accessToken, currentRound = 1) => {
 
     const albums = extractAlbumData(randomAlbums);
 
-    const artistImages = await fetchArtistDetails(accessToken, albums);
+    const artistDetails = await fetchArtistDetails(accessToken, albums);
+
+    const artistImages = extractArtistData(artistDetails);
 
     // map each round's artists obj to an artist image
     const rounds = albums.map((album, index) => {
