@@ -2,7 +2,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 
 const app = express();
+const cors = require('cors');
+
 app.use(express.json()); // for parsing POST bodies
+app.use(cors());
 dotenv.config();
 
 const fetchAccessToken = require('./api/fetchAccessToken');
@@ -10,7 +13,7 @@ const fetchRelatedArtists = require('./api/fetchRelatedArtists');
 const prepareRounds = require('./utils/prepareRounds');
 const extractRelatedArtists = require('./utils/extractRelatedArtists');
 
-app.get('/token', async (req, res) => {
+app.get('/token', cors(process.env.FRONTEND_URL), async (req, res) => {
     const tokenVal = await fetchAccessToken();
     const token = tokenVal.access_token;
     // calculate expiry date and time (current time + one hour)
@@ -18,14 +21,14 @@ app.get('/token', async (req, res) => {
     if (tokenVal) res.send({ token, expiresAt });
 });
 
-app.post('/rounds', async (req, res) => {
+app.post('/rounds', cors(process.env.FRONTEND_URL), async (req, res) => {
     const { currentRound, accessToken } = req.body;
 
     const roundsData = await prepareRounds(accessToken, currentRound);
     res.send(roundsData);
 });
 
-app.post('/relatedArtists', async (req, res) => {
+app.post('/relatedArtists', cors(process.env.FRONTEND_URL), async (req, res) => {
     const { accessToken, artistId } = req.body;
     const artistsData = await fetchRelatedArtists(accessToken, artistId);
 
