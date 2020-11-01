@@ -3,7 +3,9 @@
 
 const extractAlbumData = (data) => {
     // to disallow any album with 'soundtrack' in the name
-    const filteredAlbums = data.albums.items.filter((album) => !album.name.toLowerCase().includes('soundtrack'));
+    const filteredAlbums = data.albums.items.filter(
+        (album) => !album.name.toLowerCase().includes('soundtrack')
+    );
 
     const albums = filteredAlbums.slice(0, 5).map((albumObj) => {
         const album = {
