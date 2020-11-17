@@ -19,17 +19,16 @@ class FetchClient {
             headers: this.headers,
             body: this.body,
         });
+        if (!isTokenValid(response)) {
+            throw new Error('Authentication error');
+        }
 
         try {
             const jsonified = await response.json();
             return jsonified;
         } catch (err) {
-            if (!isTokenValid(response)) {
-                throw new Error('Authentication error');
-            } else {
-                console.log(err);
-                throw new Error('API error');
-            }
+            console.log(err);
+            throw new Error('API error');
         }
     }
 }
