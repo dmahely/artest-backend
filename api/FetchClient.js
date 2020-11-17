@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const isTokenValid = require('../utils/isTokenValid');
 
-const FetchClient = class {
+class FetchClient {
     constructor({ url, method, headers, body }) {
         const defaultHeaders = {
             Accept: 'application/json',
@@ -32,6 +32,6 @@ const FetchClient = class {
             }
         }
     }
-};
+}
 
 module.exports = FetchClient;
