@@ -1,7 +1,6 @@
 const baseURL = process.env.SPOTIFY_BASE_URL;
-const fetch = require('node-fetch');
 const wordBank = require('../utils/words');
-const isTokenValid = require('../utils/isTokenValid');
+const FetchClient = require('./FetchClient');
 
 const fetchAlbums = async (accessToken) => {
     const randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
@@ -23,25 +22,18 @@ const fetchAlbums = async (accessToken) => {
     // append params to baseURL
     const searchEndpoint = `${baseURL}/search?${stringifiedQueryParams}`;
 
-    const albumsResponse = await fetch(searchEndpoint, {
+    const config = {
+        url: searchEndpoint,
+        method: 'GET',
         headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
         },
-    });
+    };
 
-    if (!isTokenValid(albumsResponse)) throw new Error('Authentication error');
+    const fetcher = new FetchClient(config);
+    const albums = await fetcher.fetch();
 
-    let albumsData;
-    try {
-        albumsData = await albumsResponse.json();
-    } catch (err) {
-        console.log(err);
-        throw new Error(err);
-    }
-
-    return albumsData;
+    return albums;
 };
 
 module.exports = fetchAlbums;
