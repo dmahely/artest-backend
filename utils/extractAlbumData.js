@@ -2,9 +2,12 @@
 // returns an array of albums and artists
 
 const extractAlbumData = (data) => {
-    const { items } = data.albums;
+    // to disallow any album with 'soundtrack' in the name
+    const filteredAlbums = data.albums.items.filter(
+        (album) => !album.name.toLowerCase().includes('soundtrack')
+    );
 
-    const albums = items.map((albumObj) => {
+    const albums = filteredAlbums.slice(0, 5).map((albumObj) => {
         const album = {
             coverArt: albumObj.images[0].url,
             name: albumObj.name,

@@ -1,7 +1,10 @@
 const artists = require('./artists');
 
 const extractRelatedArtists = (data) => {
-    const relatedArtists = data.artists.slice(0, 3).map((artist) => {
+    // to disallow any 'various artists' as an artist option
+    const filteredRelatedArtists = data.artists.filter((artist) => !artist.name.toLowerCase().includes('various'));
+
+    const relatedArtists = filteredRelatedArtists.slice(0, 3).map((artist) => {
         const artistObj = {
             name: artist.name,
             id: artist.id,
