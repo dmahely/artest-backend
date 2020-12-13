@@ -19,7 +19,9 @@ const extractRelatedArtists = (data) => {
     while (relatedArtists.length < 3) {
         const randomArtist = artists[Math.floor(Math.random() * artists.length)];
         const randomIndex = Math.floor(Math.random() * relatedArtists.length);
+        if (!relatedArtists.includes(randomArtist)) {
         relatedArtists.splice(randomIndex, 0, randomArtist);
+    }
     }
     return relatedArtists;
 };
